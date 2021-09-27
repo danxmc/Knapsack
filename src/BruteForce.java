@@ -33,6 +33,7 @@ public class BruteForce {
             knapsackInstance.setSolutions(knapsackSols);
 
             System.out.println(knapsackInstance.computationInfoToString());
+            // System.out.println(knapsackInstance.toString());
         });
     }
 
@@ -47,8 +48,6 @@ public class BruteForce {
             ArrayList<Integer> right = new ArrayList<Integer>(possibleSol);
             left.add(0);
             right.add(1);
-            // W.remove(n - 1);
-            // C.remove(n - 1);
             
             List<List<Integer>> leftPossibleRes = solve(n - 1, M, B, W, C, left);
             leftPossibleRes.forEach((possibleRes) -> result.add(possibleRes));
@@ -61,8 +60,8 @@ public class BruteForce {
             totalWeight = totalCost = 0;
 
             for (int i = 0; i < possibleSol.size(); i++) {
-                totalWeight = totalWeight + (possibleSol.get(i) * W.get(i));
-                totalCost = totalCost + (possibleSol.get(i) * C.get(i));
+                totalWeight += (possibleSol.get(i) * W.get(i));
+                totalCost += (possibleSol.get(i) * C.get(i));
             }
 
             // Knapsack not overloaded && Knapsack minimum cost is met
