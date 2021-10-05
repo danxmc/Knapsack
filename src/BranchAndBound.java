@@ -49,8 +49,8 @@ public class BranchAndBound {
         // Calc accumulatedWeight of added/notAdded items
         // Calc accumulatedValue of added/notAdded items
         // Calc potentialGain of undecided items as 'added'
-        int accumulatedWeight, accumulatedValue, potentialGain, j;
-        accumulatedWeight = accumulatedValue = potentialGain = j = 0;
+        int accumulatedWeight, accumulatedValue, potentialGain;
+        accumulatedWeight = accumulatedValue = potentialGain = 0;
         for (int i = 0; i < C.size(); i++) {
             if (possibleSol.size() > 0 && i < possibleSol.size()) {
                 // Add items already added/notAdded to the accumulatedValue
