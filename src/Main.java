@@ -1,11 +1,14 @@
 public class Main {
 
     public static void main(String[] args) {
-        String fileURI = "src/KnapsackInstances/Decision/NR/NR15_inst.dat";
-        // String fileURI = "src/KnapsackInstances/Decision/ZR/ZR15_inst.dat";
+        String fileURI = "src/KnapsackInstances/Decision/NR/NR4_inst.dat";
+        // String fileURI = "src/KnapsackInstances/Decision/ZR/ZR30_inst.dat";
+        
         // HW 1
-        getByBruteForce(fileURI);
+        // getByBruteForce(fileURI);
         // getByBranchAndBound(fileURI);
+
+        // HW 2
     }
 
     public static void getByBruteForce(String fileUri) {
