@@ -15,7 +15,8 @@ public class Main {
         // getByBranchAndBound(fileURI);
 
         // HW 2
-        getByBranchAndBoundOptimized(fileURI);
+        // getByBranchAndBoundOptimized(fileURI);
+        getByHeuristic(fileURI);
     }
 
     public static void getByBruteForce(String fileUri) {
@@ -27,9 +28,14 @@ public class Main {
         BranchAndBound branchAndBoundSol = new BranchAndBound(fileUri);
         branchAndBoundSol.getSolutions();
     }
-
+    
     public static void getByBranchAndBoundOptimized(String fileUri) {
         BranchAndBound branchAndBoundSol = new BranchAndBound(fileUri);
         branchAndBoundSol.getOptimizedSolutions();
+    }
+
+    private static void getByHeuristic(String fileUri) {
+        Heuristic heuristicSol = new Heuristic(fileUri);
+        heuristicSol.getSolutions();
     }
 }
