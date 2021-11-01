@@ -117,14 +117,15 @@ public class BranchAndBound {
             optimizedSolution = new ArrayList<>(Collections.nCopies(knapsackInstance.getN(), 0));
 
             List<List<Integer>> knapsackSols = new ArrayList<>();
-            knapsackSols = solveOptimized(knapsackInstance.getN(), knapsackInstance.getM(), knapsackInstance.getW(),
+            solveOptimized(knapsackInstance.getN(), knapsackInstance.getM(), knapsackInstance.getW(),
                     knapsackInstance.getC(), new ArrayList<>());
 
+            knapsackSols.add(optimizedSolution);
             knapsackInstance.setSolutions(knapsackSols);
             // System.out.println(knapsackInstance.getId() + " " + optimizedSolution);
 
             // System.out.println(knapsackInstance.computationInfoToString());
-            System.out.println(knapsackInstance.toString() + optimizedSolution);
+            System.out.println(knapsackInstance.toString());
         });
     }
 
@@ -160,11 +161,10 @@ public class BranchAndBound {
         if (accumulatedWeight <= M) {
 
             // If it's a full length possible answer, then we can add it to the results
-            if (n == 0) {
-                result.add(new ArrayList<>(possibleSol));
-                if (bestOptimizedVal < accumulatedValue) {
-                    optimizedSolution = new ArrayList<>(possibleSol);
-                }
+            // and the current value has a better cost, we replace our optimizedSolution
+            if (n == 0 && bestOptimizedVal < accumulatedValue) {
+                // result.add(new ArrayList<>(possibleSol));
+                optimizedSolution = new ArrayList<>(possibleSol);
             }
 
             // If we can obtain a better upperBound,
