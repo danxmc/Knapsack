@@ -116,13 +116,10 @@ public class BranchAndBound {
             // Best possible solution reset
             optimizedSolution = new ArrayList<>(Collections.nCopies(knapsackInstance.getN(), 0));
 
-            List<List<Integer>> knapsackSols = new ArrayList<>();
             solveOptimized(knapsackInstance.getN(), knapsackInstance.getM(), knapsackInstance.getW(),
                     knapsackInstance.getC(), new ArrayList<>());
 
-            knapsackSols.add(optimizedSolution);
-            knapsackInstance.setSolutions(knapsackSols);
-            // System.out.println(knapsackInstance.getId() + " " + optimizedSolution);
+            knapsackInstance.setSolution(optimizedSolution);
 
             // System.out.println(knapsackInstance.computationInfoToString());
             System.out.println(knapsackInstance.toString());

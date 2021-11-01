@@ -11,7 +11,7 @@ public class KnapsackOptimizationInstance {
     private long time;
     private int complexity;
 
-    private List<List<Integer>> solutions;
+    private List<Integer> solution;
 
     public KnapsackOptimizationInstance(int id, int n, int M) {
         this.id = id;
@@ -22,7 +22,7 @@ public class KnapsackOptimizationInstance {
 
         this.time = 0;
         this.complexity = 0;
-        this.solutions = new ArrayList<>();
+        this.solution = new ArrayList<>();
     }
 
     public KnapsackOptimizationInstance(String id, String n, String M) {
@@ -34,7 +34,7 @@ public class KnapsackOptimizationInstance {
 
         this.time = 0;
         this.complexity = 0;
-        this.solutions = new ArrayList<>();
+        this.solution = new ArrayList<>();
     }
 
     public int getId() {
@@ -65,8 +65,8 @@ public class KnapsackOptimizationInstance {
         return complexity;
     }
 
-    public List<List<Integer>> getSolutions() {
-        return solutions;
+    public List<Integer> getSolutions() {
+        return solution;
     }
 
     public void setId(int id) {
@@ -97,8 +97,8 @@ public class KnapsackOptimizationInstance {
         this.complexity = complexity;
     }
 
-    public void setSolutions(List<List<Integer>> solutions) {
-        this.solutions = solutions;
+    public void setSolution(List<Integer> solution) {
+        this.solution = solution;
     }
 
     public String computationInfoToString() {
@@ -108,6 +108,6 @@ public class KnapsackOptimizationInstance {
     @Override
     public String toString() {
         return this.id + " " + this.n + " " + this.M + " " + this.W.toString() + " " + this.C.toString()
-                + " " + this.complexity + " " + this.time + " " + this.solutions;
+                + " " + this.complexity + " " + this.time + " " + this.solution;
     }
 }
