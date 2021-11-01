@@ -12,7 +12,7 @@ public class BruteForce {
         complexity = 0;
         knapsackInstances = new ArrayList<KnapsackDecisionInstance>();
         kReader = new KnapsackReader(fileUri);
-        kReader.deserializeKnapsackInstances(knapsackInstances);
+        kReader.deserializeKnapsackDecisionInstances(knapsackInstances);
     }
 
     public void getSolutions() {
