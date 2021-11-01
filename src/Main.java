@@ -16,7 +16,8 @@ public class Main {
 
         // HW 2
         // getByBranchAndBoundOptimized(fileURI);
-        getByHeuristic(fileURI);
+        // getByHeuristic(fileURI);
+        getByHeuristicExtended(fileURI);
     }
 
     public static void getByBruteForce(String fileUri) {
@@ -37,5 +38,10 @@ public class Main {
     private static void getByHeuristic(String fileUri) {
         Heuristic heuristicSol = new Heuristic(fileUri);
         heuristicSol.getSolutions();
+    }
+
+    private static void getByHeuristicExtended(String fileUri) {
+        Heuristic heuristicSol = new Heuristic(fileUri);
+        heuristicSol.getSolutionsExtended();
     }
 }
