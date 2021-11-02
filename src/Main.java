@@ -6,7 +6,7 @@ public class Main {
         // String fileURI = "src/KnapsackInstances/Decision/ZR/ZR30_inst.dat";
 
         // Optimization routes
-        String fileURI = "src/KnapsackInstances/Optimization/NK/NK4_inst.dat";
+        String fileURI = "src/KnapsackInstances/Optimization/NK/NK40_inst.dat";
         // String fileURI = "src/KnapsackInstances/Optimization/ZKC/ZKC4_inst.dat";
         // String fileURI = "src/KnapsackInstances/Optimization/ZKW/ZKW4_inst.dat";
 
@@ -17,7 +17,9 @@ public class Main {
         // HW 2
         // getByBranchAndBoundOptimized(fileURI);
         // getByHeuristic(fileURI);
-        getByHeuristicExtended(fileURI);
+        // getByHeuristicExtended(fileURI);
+        getByDynamicProgrammingCostDecomposition(fileURI);
+        getByDynamicProgrammingWeightDecomposition(fileURI);
     }
 
     public static void getByBruteForce(String fileUri) {
@@ -43,5 +45,15 @@ public class Main {
     private static void getByHeuristicExtended(String fileUri) {
         Heuristic heuristicSol = new Heuristic(fileUri);
         heuristicSol.getSolutionsExtended();
+    }
+
+    private static void getByDynamicProgrammingWeightDecomposition(String fileUri) {
+        DynamicProgramming dynamicProgrammingSol = new DynamicProgramming(fileUri);
+        dynamicProgrammingSol.getSolutionsWeightDecomposition();
+    }
+
+    private static void getByDynamicProgrammingCostDecomposition(String fileUri) {
+        DynamicProgramming dynamicProgrammingSol = new DynamicProgramming(fileUri);
+        dynamicProgrammingSol.getSolutionsCostDecomposition();
     }
 }
