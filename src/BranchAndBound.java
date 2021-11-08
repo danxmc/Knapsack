@@ -12,6 +12,7 @@ public class BranchAndBound {
     // Deserialized instances from file
     public ArrayList<KnapsackDecisionInstance> knapsackDecisionInstances;
     public ArrayList<KnapsackOptimizationInstance> knapsackOptimizationInstances;
+    public ArrayList<KnapsackOptimumSolutionInstance> knapsackOptimumSolutionInstances;
 
     public BranchAndBound(String fileUri) {
         timer = new Timer();
@@ -19,12 +20,16 @@ public class BranchAndBound {
         upperBound = 0;
         knapsackDecisionInstances = new ArrayList<>();
         knapsackOptimizationInstances = new ArrayList<>();
+        knapsackOptimumSolutionInstances = new ArrayList<>();
         kReader = new KnapsackReader(fileUri);
         if (fileUri.contains("Decision")) {
             kReader.deserializeKnapsackDecisionInstances(knapsackDecisionInstances);
         } else {
             kReader.deserializeKnapsackOptimizationInstances(knapsackOptimizationInstances);
+            kReader.setFileUri(fileUri.replace("_inst.dat", "_sol.dat"));
+            kReader.deserializeKnapsackOptimumSolutionInstance(knapsackOptimumSolutionInstances);
         }
+
     }
 
     public void getSolutions() {
@@ -46,8 +51,8 @@ public class BranchAndBound {
             knapsackInstance.setTime(timer.getTotalTime());
             knapsackInstance.setSolutions(knapsackSols);
 
-            // System.out.println(knapsackInstance.computationInfoToString());
-            System.out.println(knapsackInstance.toString());
+            System.out.println(knapsackInstance.computationInfoToString());
+            // System.out.println(knapsackInstance.toString());
         });
     }
 
@@ -111,6 +116,8 @@ public class BranchAndBound {
 
     public void getOptimizedSolutions() {
         knapsackOptimizationInstances.forEach((knapsackInstance) -> {
+            // Measure CPU time
+            timer.start();
             // Upper bound reset
             upperBound = 0;
             // Best possible solution reset
@@ -119,10 +126,16 @@ public class BranchAndBound {
             solveOptimized(knapsackInstance.getN(), knapsackInstance.getM(), knapsackInstance.getW(),
                     knapsackInstance.getC(), new ArrayList<>());
 
+            // End timer
+            timer.end();
+            knapsackInstance.setTime(timer.getTotalTime());
             knapsackInstance.setSolution(optimizedSolution);
 
-            // System.out.println(knapsackInstance.computationInfoToString());
-            System.out.println(knapsackInstance.toString());
+            // Calc Ea (Relative error) & Ra (Performance guarantee)
+            KnapsackUtils.calculateQualityMeasurements(knapsackInstance, knapsackOptimumSolutionInstances);
+
+            System.out.println(knapsackInstance.computationInfoToString());
+            // System.out.println(knapsackInstance.toString());
         });
     }
 

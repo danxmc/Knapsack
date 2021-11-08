@@ -1,8 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,31 +23,6 @@ public class Heuristic {
         kReader.deserializeKnapsackOptimumSolutionInstance(knapsackOptimumSolutionInstances);
     }
 
-    // function to sort hashmap by values
-    public static HashMap<Integer, Float> reverseSortHashByValue(HashMap<Integer, Float> hm) {
-        // Create a list from elements of HashMap
-        List<Map.Entry<Integer, Float>> list = new LinkedList<Map.Entry<Integer, Float>>(hm.entrySet());
-
-        // Sort the list using lambda expression
-        Collections.sort(list, (i1, i2) -> i2.getValue().compareTo(i1.getValue()));
-
-        // put data from sorted list to hashmap
-        HashMap<Integer, Float> temp = new LinkedHashMap<Integer, Float>();
-        for (Map.Entry<Integer, Float> aa : list) {
-            temp.put(aa.getKey(), aa.getValue());
-        }
-        return temp;
-    }
-
-    public KnapsackOptimumSolutionInstance findKnapsackOptimumSolutionInstance(int id) {
-        for (KnapsackOptimumSolutionInstance kInstance : knapsackOptimumSolutionInstances) {
-            if (kInstance.getId() == id) {
-                return kInstance;
-            }
-        }
-        return null;
-    }
-
     public void getSolutions() {
         knapsackOptimizationInstances.forEach((knapsackInstance) -> {
             // Measure CPU time
@@ -64,15 +37,7 @@ public class Heuristic {
             knapsackInstance.setSolution(solution);
 
             // Calc Ea (Relative error) & Ra (Performance guarantee)
-            int calculatedSolCost = knapsackInstance.calculateSolutionCost();
-            KnapsackOptimumSolutionInstance knapsackOptimumSolution = findKnapsackOptimumSolutionInstance(
-                    knapsackInstance.getId());
-            if (knapsackOptimumSolution != null) {
-                knapsackInstance.calcRelativeErrorMaximization(knapsackOptimumSolution.getSolutionCost(),
-                        calculatedSolCost);
-                knapsackInstance.calcPerformanceGuaranteeMaximization(knapsackOptimumSolution.getSolutionCost(),
-                        calculatedSolCost);
-            }
+            KnapsackUtils.calculateQualityMeasurements(knapsackInstance, knapsackOptimumSolutionInstances);
 
             System.out.println(knapsackInstance.computationInfoToString());
             // System.out.println(knapsackInstance.toString());
@@ -93,16 +58,8 @@ public class Heuristic {
             knapsackInstance.setSolution(solution);
 
             // Calc Ea (Relative error) & Ra (Performance guarantee)
-            int calculatedSolCost = knapsackInstance.calculateSolutionCost();
-            KnapsackOptimumSolutionInstance knapsackOptimumSolution = findKnapsackOptimumSolutionInstance(
-                    knapsackInstance.getId());
-            if (knapsackOptimumSolution != null) {
-                knapsackInstance.calcRelativeErrorMaximization(knapsackOptimumSolution.getSolutionCost(),
-                        calculatedSolCost);
-                knapsackInstance.calcPerformanceGuaranteeMaximization(knapsackOptimumSolution.getSolutionCost(),
-                        calculatedSolCost);
-            }
-            
+            KnapsackUtils.calculateQualityMeasurements(knapsackInstance, knapsackOptimumSolutionInstances);
+
             System.out.println(knapsackInstance.computationInfoToString());
             // System.out.println(knapsackInstance.toString());
         });
@@ -115,7 +72,7 @@ public class Heuristic {
             ratios.put(i, (float) C.get(i) / W.get(i));
         }
         // Reverse order ratios Map
-        HashMap<Integer, Float> ratiosOrdered = reverseSortHashByValue(ratios);
+        HashMap<Integer, Float> ratiosOrdered = KnapsackUtils.reverseSortHashByValue(ratios);
 
         // Build optimizedAnswer
         int totalWeight = 0;
@@ -158,7 +115,7 @@ public class Heuristic {
         }
 
         // Reverse order ratios Map
-        HashMap<Integer, Float> ratiosOrdered = reverseSortHashByValue(ratios);
+        HashMap<Integer, Float> ratiosOrdered = KnapsackUtils.reverseSortHashByValue(ratios);
 
         // Build optimizedAnswer
         int totalWeight, totalCost;
