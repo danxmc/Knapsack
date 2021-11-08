@@ -7,15 +7,22 @@ import java.util.List;
 import java.util.Map;
 
 public class Heuristic {
+    public Timer timer;
     public KnapsackReader kReader;
 
     // Deserialized instances from file
     public ArrayList<KnapsackOptimizationInstance> knapsackOptimizationInstances;
+    public ArrayList<KnapsackOptimumSolutionInstance> knapsackOptimumSolutionInstances;
 
     public Heuristic(String fileUri) {
+        timer = new Timer();
         knapsackOptimizationInstances = new ArrayList<>();
+        knapsackOptimumSolutionInstances = new ArrayList<>();
+
         kReader = new KnapsackReader(fileUri);
         kReader.deserializeKnapsackOptimizationInstances(knapsackOptimizationInstances);
+        kReader.setFileUri(fileUri.replace("_inst.dat", "_sol.dat"));
+        kReader.deserializeKnapsackOptimumSolutionInstance(knapsackOptimumSolutionInstances);
     }
 
     // function to sort hashmap by values
@@ -34,25 +41,70 @@ public class Heuristic {
         return temp;
     }
 
+    public KnapsackOptimumSolutionInstance findKnapsackOptimumSolutionInstance(int id) {
+        for (KnapsackOptimumSolutionInstance kInstance : knapsackOptimumSolutionInstances) {
+            if (kInstance.getId() == id) {
+                return kInstance;
+            }
+        }
+        return null;
+    }
+
     public void getSolutions() {
         knapsackOptimizationInstances.forEach((knapsackInstance) -> {
-            List<Integer> solution = solve(knapsackInstance.getN(), knapsackInstance.getM(), knapsackInstance.getW(), knapsackInstance.getC());
+            // Measure CPU time
+            timer.start();
 
+            List<Integer> solution = solve(knapsackInstance.getN(), knapsackInstance.getM(), knapsackInstance.getW(),
+                    knapsackInstance.getC());
+
+            // End timer
+            timer.end();
+            knapsackInstance.setTime(timer.getTotalTime());
             knapsackInstance.setSolution(solution);
 
-            // System.out.println(knapsackInstance.computationInfoToString());
-            System.out.println(knapsackInstance.toString());
+            // Calc Ea (Relative error) & Ra (Performance guarantee)
+            int calculatedSolCost = knapsackInstance.calculateSolutionCost();
+            KnapsackOptimumSolutionInstance knapsackOptimumSolution = findKnapsackOptimumSolutionInstance(
+                    knapsackInstance.getId());
+            if (knapsackOptimumSolution != null) {
+                knapsackInstance.calcRelativeErrorMaximization(knapsackOptimumSolution.getSolutionCost(),
+                        calculatedSolCost);
+                knapsackInstance.calcPerformanceGuaranteeMaximization(knapsackOptimumSolution.getSolutionCost(),
+                        calculatedSolCost);
+            }
+
+            System.out.println(knapsackInstance.computationInfoToString());
+            // System.out.println(knapsackInstance.toString());
         });
     }
 
     public void getSolutionsExtended() {
         knapsackOptimizationInstances.forEach((knapsackInstance) -> {
-            List<Integer> solution = solveExtended(knapsackInstance.getN(), knapsackInstance.getM(), knapsackInstance.getW(), knapsackInstance.getC());
+            // Measure CPU time
+            timer.start();
 
+            List<Integer> solution = solveExtended(knapsackInstance.getN(), knapsackInstance.getM(),
+                    knapsackInstance.getW(), knapsackInstance.getC());
+
+            // End timer
+            timer.end();
+            knapsackInstance.setTime(timer.getTotalTime());
             knapsackInstance.setSolution(solution);
 
-            // System.out.println(knapsackInstance.computationInfoToString());
-            System.out.println(knapsackInstance.toString());
+            // Calc Ea (Relative error) & Ra (Performance guarantee)
+            int calculatedSolCost = knapsackInstance.calculateSolutionCost();
+            KnapsackOptimumSolutionInstance knapsackOptimumSolution = findKnapsackOptimumSolutionInstance(
+                    knapsackInstance.getId());
+            if (knapsackOptimumSolution != null) {
+                knapsackInstance.calcRelativeErrorMaximization(knapsackOptimumSolution.getSolutionCost(),
+                        calculatedSolCost);
+                knapsackInstance.calcPerformanceGuaranteeMaximization(knapsackOptimumSolution.getSolutionCost(),
+                        calculatedSolCost);
+            }
+            
+            System.out.println(knapsackInstance.computationInfoToString());
+            // System.out.println(knapsackInstance.toString());
         });
     }
 
@@ -82,16 +134,16 @@ public class Heuristic {
 
     private List<Integer> solveExtended(int n, int M, ArrayList<Integer> W, ArrayList<Integer> C) {
         int possibleSolutionCost = 0;
-        Integer possibleSolutionIndex =  null;
+        Integer possibleSolutionIndex = null;
         List<Integer> possibleSolution = new ArrayList<>(Collections.nCopies(n, 0));
         HashMap<Integer, Float> ratios = new HashMap<Integer, Float>();
-        
+
         // Get cost / weight ratios on a map with their original index
         // Get item index with best Cost, not exceeding maxWeight (M)
         for (int i = 0; i < n; i++) {
             int currentItemCost = C.get(i);
             int currentItemWeight = W.get(i);
-            
+
             ratios.put(i, (float) currentItemCost / currentItemWeight);
 
             if (currentItemCost > possibleSolutionCost && currentItemWeight <= M) {
@@ -104,7 +156,7 @@ public class Heuristic {
         if (possibleSolutionIndex != null) {
             possibleSolution.set(possibleSolutionIndex, 1);
         }
-        
+
         // Reverse order ratios Map
         HashMap<Integer, Float> ratiosOrdered = reverseSortHashByValue(ratios);
 
