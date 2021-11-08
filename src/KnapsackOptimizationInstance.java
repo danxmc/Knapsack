@@ -8,7 +8,7 @@ public class KnapsackOptimizationInstance {
     private ArrayList<Integer> W; // weight of items
     private ArrayList<Integer> C; // cost of items
 
-    private long time;
+    private float time;
     private int complexity;
 
     private int solutionCost;
@@ -67,7 +67,7 @@ public class KnapsackOptimizationInstance {
         return C;
     }
 
-    public long getTime() {
+    public float getTime() {
         return time;
     }
 
@@ -112,7 +112,8 @@ public class KnapsackOptimizationInstance {
     }
 
     public void setTime(long time) {
-        this.time = time;
+        float timeMs = time / 1000000.0f;;
+        this.time = timeMs;
     }
 
     public void setComplexity(int complexity) {

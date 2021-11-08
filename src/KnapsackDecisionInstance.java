@@ -9,7 +9,7 @@ public class KnapsackDecisionInstance {
     private ArrayList<Integer> W; // weight of items
     private ArrayList<Integer> C; // cost of items
 
-    private long time;
+    private float time;
     private int complexity;
 
     private List<List<Integer>> solutions;
@@ -64,7 +64,7 @@ public class KnapsackDecisionInstance {
         return C;
     }
 
-    public long getTime() {
+    public float getTime() {
         return time;
     }
 
@@ -101,7 +101,8 @@ public class KnapsackDecisionInstance {
     }
 
     public void setTime(long time) {
-        this.time = time;
+        float timeMs = time / 1000000.0f;;
+        this.time = timeMs;
     }
 
     public void setComplexity(int complexity) {
