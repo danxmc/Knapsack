@@ -58,4 +58,24 @@ public final class KnapsackUtils {
     public static String getSolUri(String fileUri) {
         return fileUri.replace("_inst.dat", "_sol.dat");
     }
+
+    public static List<Integer> buildAnswerFromDPTable(int n, int M, ArrayList<Integer> W, ArrayList<Integer> C, int[][] T) {
+        // Initialize solution List with appropriate size and only zeros
+        List<Integer> solution = new ArrayList<Integer>(Collections.nCopies(n, 0));
+
+        // Step 1: Starting from i = n, j = M.
+        // Step 2: Look in column j, up from bottom, you find the line i such that
+        // T[i][j] > T[i – 1][j]. Mark selected item i: Select [i] = true;
+        // Step 3: j = T[i][j] – M[i]. If j > 0, go to step 2, otherwise go to step 4
+        // Step 4: Based on the table of options to print the selected packages.
+        while (n != 0) {
+            // If T[i][j] = T[i – 1][j], the current item is not selected.
+            if (T[n][M] != T[n - 1][M]) {
+                solution.set(n - 1, 1);
+                M = M - W.get(n - 1);
+            }
+            n--;
+        }
+        return solution;
+    }
 }

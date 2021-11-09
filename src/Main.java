@@ -7,8 +7,8 @@ public class Main {
 
         // Optimization routes
         String fileURI = "src/KnapsackInstances/Optimization/NK/NK40_inst.dat";
-        // String fileURI = "src/KnapsackInstances/Optimization/ZKC/ZKC4_inst.dat";
-        // String fileURI = "src/KnapsackInstances/Optimization/ZKW/ZKW4_inst.dat";
+        // String fileURI = "src/KnapsackInstances/Optimization/ZKC/ZKC40_inst.dat";
+        // String fileURI = "src/KnapsackInstances/Optimization/ZKW/ZKW40_inst.dat";
 
         // HW 1
         // getByBruteForce(fileURI);
@@ -18,8 +18,9 @@ public class Main {
         // getByBranchAndBoundOptimized(fileURI);
         // getByHeuristic(fileURI);
         // getByHeuristicExtended(fileURI);
-        getByDynamicProgrammingCostDecomposition(fileURI);
-        getByDynamicProgrammingWeightDecomposition(fileURI);
+        // getByDynamicProgrammingCostDecomposition(fileURI);
+        getByDynamicProgrammingWeightDecompositionRecursive(fileURI);
+        getByDynamicProgrammingWeightDecompositionIterative(fileURI);
     }
 
     public static void getByBruteForce(String fileUri) {
@@ -47,9 +48,14 @@ public class Main {
         heuristicSol.getSolutionsExtended();
     }
 
-    private static void getByDynamicProgrammingWeightDecomposition(String fileUri) {
+    private static void getByDynamicProgrammingWeightDecompositionRecursive(String fileUri) {
         DynamicProgramming dynamicProgrammingSol = new DynamicProgramming(fileUri);
-        dynamicProgrammingSol.getSolutionsWeightDecomposition();
+        dynamicProgrammingSol.getSolutionsWeightDecompositionRecursive();
+    }
+
+    private static void getByDynamicProgrammingWeightDecompositionIterative(String fileUri) {
+        DynamicProgramming dynamicProgrammingSol = new DynamicProgramming(fileUri);
+        dynamicProgrammingSol.getSolutionsWeightDecompositionIterative();
     }
 
     private static void getByDynamicProgrammingCostDecomposition(String fileUri) {
