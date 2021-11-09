@@ -26,7 +26,7 @@ public class BranchAndBound {
             kReader.deserializeKnapsackDecisionInstances(knapsackDecisionInstances);
         } else {
             kReader.deserializeKnapsackOptimizationInstances(knapsackOptimizationInstances);
-            kReader.setFileUri(fileUri.replace("_inst.dat", "_sol.dat"));
+            kReader.setFileUri(KnapsackUtils.getSolUri(fileUri));
             kReader.deserializeKnapsackOptimumSolutionInstance(knapsackOptimumSolutionInstances);
         }
 

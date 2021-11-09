@@ -54,4 +54,8 @@ public final class KnapsackUtils {
         }
         return temp;
     }
+
+    public static String getSolUri(String fileUri) {
+        return fileUri.replace("_inst.dat", "_sol.dat");
+    }
 }

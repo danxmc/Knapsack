@@ -19,7 +19,7 @@ public class Heuristic {
 
         kReader = new KnapsackReader(fileUri);
         kReader.deserializeKnapsackOptimizationInstances(knapsackOptimizationInstances);
-        kReader.setFileUri(fileUri.replace("_inst.dat", "_sol.dat"));
+        kReader.setFileUri(KnapsackUtils.getSolUri(fileUri));
         kReader.deserializeKnapsackOptimumSolutionInstance(knapsackOptimumSolutionInstances);
     }
 
