@@ -9,7 +9,6 @@ public class KnapsackOptimizationInstance {
     private ArrayList<Integer> C; // cost of items
 
     private float time;
-    private int complexity;
 
     private int solutionCost;
     private double relativeError;
@@ -28,7 +27,6 @@ public class KnapsackOptimizationInstance {
         this.relativeError = 0;
         this.performanceGuarantee = 1;
         this.time = 0;
-        this.complexity = 0;
         this.solution = new ArrayList<>();
     }
 
@@ -43,7 +41,6 @@ public class KnapsackOptimizationInstance {
         this.relativeError = 0;
         this.performanceGuarantee = 1;
         this.time = 0;
-        this.complexity = 0;
         this.solution = new ArrayList<>();
     }
 
@@ -69,10 +66,6 @@ public class KnapsackOptimizationInstance {
 
     public float getTime() {
         return time;
-    }
-
-    public int getComplexity() {
-        return complexity;
     }
 
     public int getSolutionCost() {
@@ -112,12 +105,8 @@ public class KnapsackOptimizationInstance {
     }
 
     public void setTime(long time) {
-        float timeMs = time / 1000000.0f;;
+        float timeMs = time / 1000000.0f;
         this.time = timeMs;
-    }
-
-    public void setComplexity(int complexity) {
-        this.complexity = complexity;
     }
 
     public void setSolutionCost(int solutionCost) {
@@ -137,8 +126,7 @@ public class KnapsackOptimizationInstance {
     }
 
     public String computationInfoToString() {
-        return this.id + " " + this.relativeError + " " + this.performanceGuarantee + " " + this.complexity + " "
-                + this.time;
+        return this.id + " " + this.relativeError + " " + this.performanceGuarantee + " " + this.time;
     }
 
     // function to calculate the cost of a knapsack solution
@@ -185,7 +173,6 @@ public class KnapsackOptimizationInstance {
     @Override
     public String toString() {
         return this.id + " " + this.n + " " + this.M + " " + this.W.toString() + " " + this.C.toString() + " "
-                + this.complexity + " " + this.time + " " + this.relativeError + " " + this.performanceGuarantee + " "
-                + this.solution;
+                + this.time + " " + this.relativeError + " " + this.performanceGuarantee + " " + this.solution;
     }
 }

@@ -38,7 +38,7 @@ public class DynamicProgramming {
                     knapsackInstance.getW(), knapsackInstance.getC(), dpTable);
 
             // System.out.println(Arrays.deepToString(dpTable));
-            System.out.println(solution.toString());
+            // System.out.println(solution.toString());
             // End timer
             timer.end();
             knapsackInstance.setTime(timer.getTotalTime());
@@ -64,7 +64,7 @@ public class DynamicProgramming {
                     knapsackInstance.getW(), knapsackInstance.getC(), dpTable);
 
             // System.out.println(Arrays.deepToString(dpTable));
-            System.out.println(solution.toString());
+            // System.out.println(solution.toString());
             // End timer
             timer.end();
             knapsackInstance.setTime(timer.getTotalTime());
