@@ -37,7 +37,7 @@ public class BruteForce {
         });
     }
 
-    public List<List<Integer>> solve(int n, int M, int B, ArrayList<Integer> W, ArrayList<Integer> C,
+    private List<List<Integer>> solve(int n, int M, int B, ArrayList<Integer> W, ArrayList<Integer> C,
             ArrayList<Integer> possibleSol) {
         this.complexity++;
 
