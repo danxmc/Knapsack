@@ -6,7 +6,7 @@ public class Main {
         // String fileURI = "src/KnapsackInstances/Decision/ZR/ZR30_inst.dat";
 
         // Optimization routes
-        String fileURI = "src/KnapsackInstances/Optimization/NK/NK40_inst.dat";
+        String fileURI = "src/KnapsackInstances/Optimization/NK/NK1_inst.dat";
         // String fileURI = "src/KnapsackInstances/Optimization/ZKC/ZKC40_inst.dat";
         // String fileURI = "src/KnapsackInstances/Optimization/ZKW/ZKW40_inst.dat";
 
@@ -18,9 +18,9 @@ public class Main {
         // getByBranchAndBoundOptimized(fileURI);
         // getByHeuristic(fileURI);
         // getByHeuristicExtended(fileURI);
-        // getByDynamicProgrammingCostDecomposition(fileURI);
-        getByDynamicProgrammingWeightDecompositionRecursive(fileURI);
-        getByDynamicProgrammingWeightDecompositionIterative(fileURI);
+        // getByDynamicProgrammingCapacityDecompositionRecursive(fileURI);
+        // getByDynamicProgrammingCapacityDecompositionIterative(fileURI);
+        getByFPTAS(fileURI);
     }
 
     public static void getByBruteForce(String fileUri) {
@@ -48,18 +48,23 @@ public class Main {
         heuristicSol.getSolutionsExtended();
     }
 
-    private static void getByDynamicProgrammingWeightDecompositionRecursive(String fileUri) {
+    private static void getByDynamicProgrammingCapacityDecompositionRecursive(String fileUri) {
         DynamicProgramming dynamicProgrammingSol = new DynamicProgramming(fileUri);
-        dynamicProgrammingSol.getSolutionsWeightDecompositionRecursive();
+        dynamicProgrammingSol.getSolutionsCapacityDecompositionRecursive();
     }
 
-    private static void getByDynamicProgrammingWeightDecompositionIterative(String fileUri) {
+    private static void getByDynamicProgrammingCapacityDecompositionIterative(String fileUri) {
         DynamicProgramming dynamicProgrammingSol = new DynamicProgramming(fileUri);
-        dynamicProgrammingSol.getSolutionsWeightDecompositionIterative();
+        dynamicProgrammingSol.getSolutionsCapacityDecompositionIterative();
     }
 
     private static void getByDynamicProgrammingCostDecomposition(String fileUri) {
         DynamicProgramming dynamicProgrammingSol = new DynamicProgramming(fileUri);
         dynamicProgrammingSol.getSolutionsCostDecomposition();
+    }
+
+    private static void getByFPTAS(String fileUri) {
+        FPTAS fptasSol = new FPTAS(fileUri);
+        fptasSol.getSolutions();
     }
 }

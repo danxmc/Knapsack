@@ -21,7 +21,7 @@ public class DynamicProgramming {
         kReader.deserializeKnapsackOptimumSolutionInstance(knapsackOptimumSolutionInstances);
     }
 
-    public void getSolutionsWeightDecompositionRecursive() {
+    public void getSolutionsCapacityDecompositionRecursive() {
         knapsackOptimizationInstances.forEach((knapsackInstance) -> {
             // Measure CPU time
             timer.start();
@@ -29,7 +29,7 @@ public class DynamicProgramming {
             // Reset dpTable
             dpTable = new int[knapsackInstance.getN() + 1][knapsackInstance.getM() + 1];
 
-            solveByCostDecompositionRecursive(knapsackInstance.getN(), knapsackInstance.getM(), knapsackInstance.getW(),
+            solveByCapacityDecompositionRecursive(knapsackInstance.getN(), knapsackInstance.getM(), knapsackInstance.getW(),
                     knapsackInstance.getC());
 
             List<Integer> solution = KnapsackUtils.buildAnswerFromDPTable(knapsackInstance.getN(), knapsackInstance.getM(),
@@ -50,12 +50,12 @@ public class DynamicProgramming {
         });
     }
 
-    public void getSolutionsWeightDecompositionIterative() {
+    public void getSolutionsCapacityDecompositionIterative() {
         knapsackOptimizationInstances.forEach((knapsackInstance) -> {
             // Measure CPU time
             timer.start();
 
-            solveByCostDecompositionIterative(knapsackInstance.getN(), knapsackInstance.getM(), knapsackInstance.getW(),
+            solveByCapacityDecompositionIterative(knapsackInstance.getN(), knapsackInstance.getM(), knapsackInstance.getW(),
                     knapsackInstance.getC());
 
             List<Integer> solution = KnapsackUtils.buildAnswerFromDPTable(knapsackInstance.getN(), knapsackInstance.getM(),
@@ -97,7 +97,7 @@ public class DynamicProgramming {
         });
     }
 
-    private int solveByCostDecompositionRecursive(int n, int M, ArrayList<Integer> W, ArrayList<Integer> C) {
+    private int solveByCapacityDecompositionRecursive(int n, int M, ArrayList<Integer> W, ArrayList<Integer> C) {
         // If it's a trivial solution
         if (n <= 0 || M <= 0) {
             return 0;
@@ -115,11 +115,11 @@ public class DynamicProgramming {
         if (W.get(n - 1) <= M) {
             // Calc current item value + possible next item
             // Subtract current item counter & item Weight from MaxWeight
-            valueWithItem = C.get(n - 1) + solveByCostDecompositionRecursive(n - 1, M - W.get(n - 1), W, C);
+            valueWithItem = C.get(n - 1) + solveByCapacityDecompositionRecursive(n - 1, M - W.get(n - 1), W, C);
         }
 
         // Don't take item
-        int valueWithoutItem = solveByCostDecompositionRecursive(n - 1, M, W, C);
+        int valueWithoutItem = solveByCapacityDecompositionRecursive(n - 1, M, W, C);
 
         // Store maxValue solution on the global table
         dpTable[n][M] = valueWithItem > valueWithoutItem ? valueWithItem : valueWithoutItem;
@@ -127,7 +127,7 @@ public class DynamicProgramming {
         return dpTable[n][M];
     }
 
-    private int solveByCostDecompositionIterative(int n, int M, ArrayList<Integer> W, ArrayList<Integer> C) {
+    private int solveByCapacityDecompositionIterative(int n, int M, ArrayList<Integer> W, ArrayList<Integer> C) {
         // Create array containing zeros
         dpTable = new int[n + 1][M + 1];
 
