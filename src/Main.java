@@ -6,7 +6,7 @@ public class Main {
         // String fileURI = "src/KnapsackInstances/Decision/ZR/ZR30_inst.dat";
 
         // Optimization routes
-        String fileURI = "src/KnapsackInstances/Optimization/NK/NK1_inst.dat";
+        String fileURI = "src/KnapsackInstances/Optimization/NK/NK4_inst.dat";
         // String fileURI = "src/KnapsackInstances/Optimization/ZKC/ZKC40_inst.dat";
         // String fileURI = "src/KnapsackInstances/Optimization/ZKW/ZKW40_inst.dat";
 
@@ -19,7 +19,8 @@ public class Main {
         // getByHeuristic(fileURI);
         // getByHeuristicExtended(fileURI);
         // getByDynamicProgrammingCapacityDecompositionRecursive(fileURI);
-        // getByDynamicProgrammingCapacityDecompositionIterative(fileURI);
+        getByDynamicProgrammingCapacityDecompositionIterative(fileURI);
+        // getByDynamicProgrammingTotalCostDecompositionIterative(fileURI);
         getByFPTAS(fileURI);
     }
 
@@ -60,7 +61,12 @@ public class Main {
 
     private static void getByDynamicProgrammingCostDecomposition(String fileUri) {
         DynamicProgramming dynamicProgrammingSol = new DynamicProgramming(fileUri);
-        dynamicProgrammingSol.getSolutionsCostDecomposition();
+        dynamicProgrammingSol.getSolutionsTotalCostDecomposition();
+    }
+
+    private static void getByDynamicProgrammingTotalCostDecompositionIterative(String fileUri) {
+        DynamicProgramming dynamicProgrammingSol = new DynamicProgramming(fileUri);
+        dynamicProgrammingSol.getSolutionsTotalCostDecomposition();
     }
 
     private static void getByFPTAS(String fileUri) {

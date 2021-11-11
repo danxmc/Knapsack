@@ -59,7 +59,8 @@ public final class KnapsackUtils {
         return fileUri.replace("_inst.dat", "_sol.dat");
     }
 
-    public static List<Integer> buildAnswerFromDPTable(int n, int M, ArrayList<Integer> W, ArrayList<Integer> C, int[][] T) {
+    public static List<Integer> buildAnswerByCapacityFromDPTable(int n, int M, ArrayList<Integer> W,
+            ArrayList<Integer> C, int[][] T) {
         // Initialize solution List with appropriate size and only zeros
         List<Integer> solution = new ArrayList<Integer>(Collections.nCopies(n, 0));
 
@@ -72,7 +73,33 @@ public final class KnapsackUtils {
             // If T[i][j] = T[i – 1][j], the current item is not selected.
             if (T[n][M] != T[n - 1][M]) {
                 solution.set(n - 1, 1);
-                M = M - W.get(n - 1);
+                M -= W.get(n - 1);
+            }
+            n--;
+        }
+        return solution;
+    }
+
+    public static List<Integer> buildAnswerByTotalCostFromDPTable(int n, int M, ArrayList<Integer> W,
+            ArrayList<Integer> C, int[][] T) {
+        // Initialize solution List with appropriate size and only zeros
+        List<Integer> solution = new ArrayList<Integer>(Collections.nCopies(n, 0));
+
+        int sumC = C.stream().mapToInt(Integer::intValue).sum();
+        boolean flag = false;
+
+        while (n != 0) {
+            while (sumC != 0) {
+                if (T[n][sumC] <= M && T[n][sumC] != T[n - 1][sumC]) {
+                    solution.set(n - 1, 1);
+                    sumC -= C.get(n - 1);
+                    flag = true;
+                    n--;
+                } else if (flag) {
+                    n--;
+                } else {
+                    sumC--;
+                }
             }
             n--;
         }

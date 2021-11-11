@@ -1,10 +1,11 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DynamicProgramming {
     public Timer timer;
     public KnapsackReader kReader;
-    public int[][] dpTable;
+    public static int[][] dpTable;
 
     // Deserialized instances from file
     public ArrayList<KnapsackOptimizationInstance> knapsackOptimizationInstances;
@@ -29,11 +30,11 @@ public class DynamicProgramming {
             // Reset dpTable
             dpTable = new int[knapsackInstance.getN() + 1][knapsackInstance.getM() + 1];
 
-            solveByCapacityDecompositionRecursive(knapsackInstance.getN(), knapsackInstance.getM(), knapsackInstance.getW(),
-                    knapsackInstance.getC());
+            solveByCapacityDecompositionRecursive(knapsackInstance.getN(), knapsackInstance.getM(),
+                    knapsackInstance.getW(), knapsackInstance.getC());
 
-            List<Integer> solution = KnapsackUtils.buildAnswerFromDPTable(knapsackInstance.getN(), knapsackInstance.getM(),
-                    knapsackInstance.getW(), knapsackInstance.getC(), dpTable);
+            List<Integer> solution = KnapsackUtils.buildAnswerByCapacityFromDPTable(knapsackInstance.getN(),
+                    knapsackInstance.getM(), knapsackInstance.getW(), knapsackInstance.getC(), dpTable);
 
             // System.out.println(Arrays.deepToString(dpTable));
             // System.out.println(solution.toString());
@@ -55,11 +56,11 @@ public class DynamicProgramming {
             // Measure CPU time
             timer.start();
 
-            solveByCapacityDecompositionIterative(knapsackInstance.getN(), knapsackInstance.getM(), knapsackInstance.getW(),
-                    knapsackInstance.getC());
+            solveByCapacityDecompositionIterative(knapsackInstance.getN(), knapsackInstance.getM(),
+                    knapsackInstance.getW(), knapsackInstance.getC());
 
-            List<Integer> solution = KnapsackUtils.buildAnswerFromDPTable(knapsackInstance.getN(), knapsackInstance.getM(),
-                    knapsackInstance.getW(), knapsackInstance.getC(), dpTable);
+            List<Integer> solution = KnapsackUtils.buildAnswerByCapacityFromDPTable(knapsackInstance.getN(),
+                    knapsackInstance.getM(), knapsackInstance.getW(), knapsackInstance.getC(), dpTable);
 
             // System.out.println(Arrays.deepToString(dpTable));
             // System.out.println(solution.toString());
@@ -76,13 +77,16 @@ public class DynamicProgramming {
         });
     }
 
-    public void getSolutionsCostDecomposition() {
+    public void getSolutionsTotalCostDecomposition() {
         knapsackOptimizationInstances.forEach((knapsackInstance) -> {
             // Measure CPU time
             timer.start();
 
-            List<Integer> solution = solveByWeightDecomposition(knapsackInstance.getN(), knapsackInstance.getM(),
-                    knapsackInstance.getW(), knapsackInstance.getC());
+            solveByTotalCostDecomposition(knapsackInstance.getN(), knapsackInstance.getM(), knapsackInstance.getW(),
+                    knapsackInstance.getC());
+
+            List<Integer> solution = KnapsackUtils.buildAnswerByTotalCostFromDPTable(knapsackInstance.getN(),
+                    knapsackInstance.getM(), knapsackInstance.getW(), knapsackInstance.getC(), dpTable);
 
             // End timer
             timer.end();
@@ -90,7 +94,8 @@ public class DynamicProgramming {
             knapsackInstance.setSolution(solution);
 
             // Calc Ea (Relative error) & Ra (Performance guarantee)
-            KnapsackUtils.calculateQualityMeasurements(knapsackInstance, knapsackOptimumSolutionInstances);
+            KnapsackUtils.calculateQualityMeasurements(knapsackInstance,
+            knapsackOptimumSolutionInstances);
 
             System.out.println(knapsackInstance.computationInfoToString());
             // System.out.println(knapsackInstance.toString());
@@ -148,25 +153,41 @@ public class DynamicProgramming {
             }
         }
 
-        // for (int i = 1; i <= n; i++) {
-        //     for (int j = 1; j <= M; j++) {
-        //         if (W.get(i - 1) > j) {
-        //             dpTable[i][j] = dpTable[i - 1][j];
-        //         } else {
-        //             if (C.get(i - 1) + dpTable[i - 1][j - W.get(i - 1)] > dpTable[i - 1][j]) {
-        //                 dpTable[i][j] = C.get(i - 1) + dpTable[i - 1][j - W.get(i - 1)];
-        //             } else {
-        //                 dpTable[i][j] = dpTable[i - 1][j];
-        //             }
-        //         }
-        //     }
-        // }
-
         return dpTable[n][M];
     }
 
-    private List<Integer> solveByWeightDecomposition(int n, int M, ArrayList<Integer> W, ArrayList<Integer> C) {
-        return new ArrayList<>();
+    public static int solveByTotalCostDecomposition(int n, int M, ArrayList<Integer> W, ArrayList<Integer> C) {
+        // Get the sum of costs
+        int sumC = C.stream().mapToInt(Integer::intValue).sum();
+
+        // Setup array
+        dpTable = new int[n + 1][sumC + 1];
+        Arrays.fill(dpTable[0], 1000000000);
+        dpTable[0][0] = 0;
+
+        for (int i = 1; i <= n; i++) {
+            // Fill next row with 'infinites' or items not taken
+            for (int j = 0; j <= sumC; j++) {
+                dpTable[i][j] = dpTable[i - 1][j];
+            }
+            for (int j = C.get(i - 1); j <= sumC; j++) {
+                int maxWeight = M <= dpTable[i - 1][j] ? M : dpTable[i - 1][j];
+                // Store value if it's less than the maxWeight
+                if (dpTable[i - 1][j - C.get(i - 1)] + W.get(i - 1) <= maxWeight) {
+                    // Take item
+                    dpTable[i][j] = dpTable[i - 1][j - C.get(i - 1)] + W.get(i - 1);
+                }
+            }
+        }
+
+        int solution = 0;
+        for (Integer weight : dpTable[n]) {
+            if (weight <= M) {
+                solution = weight;
+            }
+        }
+
+        return solution;
     }
 
 }
