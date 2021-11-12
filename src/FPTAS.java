@@ -17,7 +17,7 @@ public class FPTAS {
         timer = new Timer();
         // Modify epsilon for accuracy on answers
         // Epsilon has to be >= 1
-        epsilon = 1;
+        epsilon = .1;
         knapsackOptimizationInstances = new ArrayList<>();
         knapsackOptimumSolutionInstances = new ArrayList<>();
 
@@ -32,10 +32,10 @@ public class FPTAS {
             // Measure CPU Time
             timer.start();
 
-            solve(knapsackInstance.getN(), knapsackInstance.getM(), knapsackInstance.getW(), knapsackInstance.getC());
+            List<Integer> solution = solve(knapsackInstance.getN(), knapsackInstance.getM(), knapsackInstance.getW(), knapsackInstance.getC());
 
-            List<Integer> solution = KnapsackUtils.buildAnswerByTotalCostFromDPTable(knapsackInstance.getN(), knapsackInstance.getM(), knapsackInstance.getW(), cScaled,
-                    DynamicProgramming.dpTable);
+            // List<Integer> solution = KnapsackUtils.buildAnswerByTotalCostFromDPTableAndMemory(knapsackInstance.getN(), knapsackInstance.getM(), knapsackInstance.getW(), cScaled,
+            //         DynamicProgramming.dpTable);
 
             // End timer
             timer.end();
@@ -46,12 +46,14 @@ public class FPTAS {
             KnapsackUtils.calculateQualityMeasurements(knapsackInstance,
             knapsackOptimumSolutionInstances);
 
-            System.out.println(knapsackInstance.computationInfoToString());
+            
+            // System.out.println(knapsackInstance.getM() + " " + knapsackInstance.getC()+ " " + knapsackInstance.getW() );
+            System.out.println(knapsackInstance.computationInfoToString()+ " " + solution.toString());
             // System.out.println(knapsackInstance.toString());
         });
     }
 
-    private void solve(int n, int M, ArrayList<Integer> W, ArrayList<Integer> C) {
+    private List<Integer> solve(int n, int M, ArrayList<Integer> W, ArrayList<Integer> C) {
         int maxCost = Collections.max(C);
         // Set scaling factor
         double K = (epsilon * maxCost) / n;
@@ -63,7 +65,7 @@ public class FPTAS {
             Integer newCost = (int) (Math.floor(cost / K));
             cScaled.add(newCost);
         }
-        DynamicProgramming.solveByTotalCostDecomposition(n, M, W, cScaled);
-
+        List<Integer> solution = DynamicProgramming.solveByTotalCostDecompositionIterative(n, M, W, cScaled);
+        return solution;
     }
 }

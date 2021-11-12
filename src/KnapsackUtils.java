@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -80,29 +81,47 @@ public final class KnapsackUtils {
         return solution;
     }
 
-    public static List<Integer> buildAnswerByTotalCostFromDPTable(int n, int M, ArrayList<Integer> W,
-            ArrayList<Integer> C, int[][] T) {
+    public static void print2dArray(int[][] array) {
+        System.out.println(Arrays.deepToString(array).replace("], ", "]\n").replace("[[", "[").replace("]]", "]"));
+    }
+
+    public static int getMaxValue2d(int[][] numbers) {
+        int maxValue = numbers[0][0];
+        for (int j = 0; j < numbers.length; j++) {
+            for (int i = 0; i < numbers[j].length; i++) {
+                if (numbers[j][i] > maxValue && numbers[j][i] < 1000000000) {
+                    maxValue = numbers[j][i];
+                }
+            }
+        }
+        return maxValue;
+    }
+
+    public static int getMaxValueIndex(int[] array) {
+        int maxValue = array[0];
+        int index = 0;
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] > maxValue && array[i] < 1000000000) {
+                maxValue = array[i];
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    public static List<Integer> buildAnswerByTotalCostFromDPTableAndMemory(int n, int M, ArrayList<Integer> W,
+            ArrayList<Integer> C, int[][] T, int[][] memory) {
         // Initialize solution List with appropriate size and only zeros
         List<Integer> solution = new ArrayList<Integer>(Collections.nCopies(n, 0));
 
-        int sumC = C.stream().mapToInt(Integer::intValue).sum();
-        boolean flag = false;
-
-        while (n != 0) {
-            while (sumC != 0) {
-                if (T[n][sumC] <= M && T[n][sumC] != T[n - 1][sumC]) {
-                    solution.set(n - 1, 1);
-                    sumC -= C.get(n - 1);
-                    flag = true;
-                    n--;
-                } else if (flag) {
-                    n--;
-                } else {
-                    sumC--;
-                }
+        int i = getMaxValueIndex(T[n]);
+        for (int j = n; j >= 1; j--) {
+            if (memory[j][i] == 1) {
+                solution.set(j - 1, 1);
+                i -= C.get(j - 1);
             }
-            n--;
         }
+        
         return solution;
     }
 }

@@ -19,8 +19,8 @@ public class Main {
         // getByHeuristic(fileURI);
         // getByHeuristicExtended(fileURI);
         // getByDynamicProgrammingCapacityDecompositionRecursive(fileURI);
-        getByDynamicProgrammingCapacityDecompositionIterative(fileURI);
-        // getByDynamicProgrammingTotalCostDecompositionIterative(fileURI);
+        // getByDynamicProgrammingCapacityDecompositionIterative(fileURI);
+        getByDynamicProgrammingTotalCostDecompositionIterative(fileURI);
         getByFPTAS(fileURI);
     }
 
@@ -33,7 +33,7 @@ public class Main {
         BranchAndBound branchAndBoundSol = new BranchAndBound(fileUri);
         branchAndBoundSol.getSolutions();
     }
-    
+
     public static void getByBranchAndBoundOptimized(String fileUri) {
         BranchAndBound branchAndBoundSol = new BranchAndBound(fileUri);
         branchAndBoundSol.getOptimizedSolutions();
@@ -59,14 +59,9 @@ public class Main {
         dynamicProgrammingSol.getSolutionsCapacityDecompositionIterative();
     }
 
-    private static void getByDynamicProgrammingCostDecomposition(String fileUri) {
-        DynamicProgramming dynamicProgrammingSol = new DynamicProgramming(fileUri);
-        dynamicProgrammingSol.getSolutionsTotalCostDecomposition();
-    }
-
     private static void getByDynamicProgrammingTotalCostDecompositionIterative(String fileUri) {
         DynamicProgramming dynamicProgrammingSol = new DynamicProgramming(fileUri);
-        dynamicProgrammingSol.getSolutionsTotalCostDecomposition();
+        dynamicProgrammingSol.getSolutionsTotalCostDecompositionIterative();
     }
 
     private static void getByFPTAS(String fileUri) {
