@@ -6,9 +6,9 @@ public class Main {
         // String fileURI = "src/KnapsackInstances/Decision/ZR/ZR30_inst.dat";
 
         // Optimization routes
-        String fileURI = "src/KnapsackInstances/Optimization/NK/NK4_inst.dat";
+        // String fileURI = "src/KnapsackInstances/Optimization/NK/NK40_inst.dat";
         // String fileURI = "src/KnapsackInstances/Optimization/ZKC/ZKC40_inst.dat";
-        // String fileURI = "src/KnapsackInstances/Optimization/ZKW/ZKW40_inst.dat";
+        String fileURI = "src/KnapsackInstances/Optimization/ZKW/ZKW40_inst.dat";
 
         // HW 1
         // getByBruteForce(fileURI);
@@ -18,9 +18,9 @@ public class Main {
         // getByBranchAndBoundOptimized(fileURI);
         // getByHeuristic(fileURI);
         // getByHeuristicExtended(fileURI);
-        // getByDynamicProgrammingCapacityDecompositionRecursive(fileURI);
         // getByDynamicProgrammingCapacityDecompositionIterative(fileURI);
-        getByDynamicProgrammingTotalCostDecompositionIterative(fileURI);
+        // getByDynamicProgrammingCapacityDecompositionRecursive(fileURI);
+        // getByDynamicProgrammingTotalCostDecompositionIterative(fileURI);
         getByFPTAS(fileURI);
     }
 

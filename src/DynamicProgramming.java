@@ -91,7 +91,7 @@ public class DynamicProgramming {
             // Calc Ea (Relative error) & Ra (Performance guarantee)
             KnapsackUtils.calculateQualityMeasurements(knapsackInstance, knapsackOptimumSolutionInstances);
 
-            System.out.println(knapsackInstance.computationInfoToString() + " " + solution.toString());
+            System.out.println(knapsackInstance.computationInfoToString());
             // System.out.println(knapsackInstance.toString());
         });
     }

@@ -16,8 +16,8 @@ public class FPTAS {
     public FPTAS(String fileUri) {
         timer = new Timer();
         // Modify epsilon for accuracy on answers
-        // Epsilon has to be >= 1
-        epsilon = .1;
+        // Epsilon has to be <= 1
+        epsilon = .5;
         knapsackOptimizationInstances = new ArrayList<>();
         knapsackOptimumSolutionInstances = new ArrayList<>();
 
@@ -48,7 +48,7 @@ public class FPTAS {
 
             
             // System.out.println(knapsackInstance.getM() + " " + knapsackInstance.getC()+ " " + knapsackInstance.getW() );
-            System.out.println(knapsackInstance.computationInfoToString()+ " " + solution.toString());
+            System.out.println(knapsackInstance.computationInfoToString());
             // System.out.println(knapsackInstance.toString());
         });
     }
