@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class KnapsackReader {
-    public String fileUri;
+    private String fileUri;
 
     public KnapsackReader(String fileUri) {
         this.fileUri = fileUri;
@@ -49,7 +49,70 @@ public class KnapsackReader {
         }
     }
 
-    public void deserializeKnapsackInstances(ArrayList<KnapsackDecisionInstance> knapsackInstances) {
+    public void deserializeKnapsackOptimumSolutionInstance(
+            ArrayList<KnapsackOptimumSolutionInstance> knapsackSolutions) {
+        BufferedReader br;
+        try {
+            br = new BufferedReader(new FileReader(fileUri));
+
+            String currentLine;
+            try {
+                while ((currentLine = br.readLine()) != null) {
+                    // Parse to Obj
+                    String[] strArgs = currentLine.split(" ");
+
+                    KnapsackOptimumSolutionInstance knapsackInstance = new KnapsackOptimumSolutionInstance(strArgs[0],
+                            strArgs[1], strArgs[2]);
+                    for (int j = 3; j < strArgs.length; j++) {
+                        // Assign solution arrays
+                        knapsackInstance.getSolution().add(Integer.parseInt(strArgs[j]));
+                    }
+                    knapsackSolutions.add(knapsackInstance);
+                }
+                br.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deserializeKnapsackOptimizationInstances(ArrayList<KnapsackOptimizationInstance> knapsackInstances) {
+        BufferedReader br;
+        try {
+            br = new BufferedReader(new FileReader(fileUri));
+
+            String currentLine;
+            try {
+                while ((currentLine = br.readLine()) != null) {
+                    // Parse to Obj
+                    String[] strArgs = currentLine.split(" ");
+
+                    KnapsackOptimizationInstance knapsackInstance = new KnapsackOptimizationInstance(strArgs[0],
+                            strArgs[1], strArgs[2]);
+                    for (int j = 3; j < strArgs.length; j++) {
+                        // Assign weights and cost arrays
+                        if (j % 2 == 0) {
+                            // Cost
+                            knapsackInstance.getC().add(Integer.parseInt(strArgs[j]));
+                        } else {
+                            // Weight
+                            knapsackInstance.getW().add(Integer.parseInt(strArgs[j]));
+                        }
+                    }
+                    knapsackInstances.add(knapsackInstance);
+                }
+                br.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deserializeKnapsackDecisionInstances(ArrayList<KnapsackDecisionInstance> knapsackInstances) {
         BufferedReader br;
         try {
             br = new BufferedReader(new FileReader(fileUri));
@@ -58,8 +121,9 @@ public class KnapsackReader {
                 while ((currentLine = br.readLine()) != null) {
                     // Parse to Obj
                     String[] strArgs = currentLine.split(" ");
-                    
-                    KnapsackDecisionInstance knapsackInstance = new KnapsackDecisionInstance(strArgs[0], strArgs[1], strArgs[2], strArgs[3]);
+
+                    KnapsackDecisionInstance knapsackInstance = new KnapsackDecisionInstance(strArgs[0], strArgs[1],
+                            strArgs[2], strArgs[3]);
                     for (int j = 4; j < strArgs.length; j++) {
                         // Assign weights and cost arrays
                         if (j % 2 == 0) {
@@ -72,13 +136,12 @@ public class KnapsackReader {
                     }
                     knapsackInstances.add(knapsackInstance);
                 }
+                br.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
     }
-
 }
