@@ -97,15 +97,16 @@ public final class KnapsackUtils {
         return maxValue;
     }
 
-    public static int getMaxValueIndex(int[] array) {
-        int maxValue = array[0];
+    public static int getMaxValueMinWeightIndex(int[] arrayC, int M) {
+        int maxValue = arrayC[0];
         int index = 0;
-        for (int i = 0; i < array.length; i++) {
-            if (array[i] > maxValue && array[i] < 1000000000) {
-                maxValue = array[i];
+        for (int i = 0; i < arrayC.length; i++) {
+            if (arrayC[i] <= M || arrayC[i] >= maxValue && arrayC[i] < 1000000000) {
+                maxValue = arrayC[i];
                 index = i;
             }
         }
+
         return index;
     }
 
@@ -114,14 +115,14 @@ public final class KnapsackUtils {
         // Initialize solution List with appropriate size and only zeros
         List<Integer> solution = new ArrayList<Integer>(Collections.nCopies(n, 0));
 
-        int i = getMaxValueIndex(T[n]);
+        int i = getMaxValueMinWeightIndex(T[n], M);
         for (int j = n; j >= 1; j--) {
             if (memory[j][i] == 1) {
                 solution.set(j - 1, 1);
                 i -= C.get(j - 1);
             }
         }
-        
+
         return solution;
     }
 }

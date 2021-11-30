@@ -1,8 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class DynamicProgramming {
     public Timer timer;
@@ -189,9 +187,9 @@ public class DynamicProgramming {
                 memS[i][j] = 0;
             }
             for (int j = C.get(i - 1); j <= sumC; j++) {
-                int maxWeight = M <= dpTable[i - 1][j] ? M : dpTable[i - 1][j];
-                // Store value if it's less than the maxWeight
-                if (dpTable[i - 1][j - C.get(i - 1)] + W.get(i - 1) <= maxWeight) {
+                int minWeight = Math.min(M, dpTable[i - 1][j]);
+                // Store value if it's less than the minWeight
+                if (dpTable[i - 1][j - C.get(i - 1)] + W.get(i - 1) <= minWeight) {
                     // Take item
                     dpTable[i][j] = dpTable[i - 1][j - C.get(i - 1)] + W.get(i - 1);
                     memS[i][j] = 1;
