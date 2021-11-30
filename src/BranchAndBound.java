@@ -123,7 +123,8 @@ public class BranchAndBound {
             // Best possible solution reset
             optimizedSolution = new ArrayList<>(Collections.nCopies(knapsackInstance.getN(), 0));
 
-            solveOptimized(knapsackInstance.getN(), knapsackInstance.getM(), knapsackInstance.getW(),
+            solveOptimized(knapsackInstance.getN(), knapsackInstance.getM(),
+                    knapsackInstance.getW(),
                     knapsackInstance.getC(), new ArrayList<>());
 
             // End timer
@@ -180,7 +181,7 @@ public class BranchAndBound {
             // If we can obtain a better upperBound,
             // by taking into account the immediate costs and potential costs
             // we continue iterating
-            if (accumulatedValue + potentialGain > upperBound) {
+            if (accumulatedValue + potentialGain > bestOptimizedVal) {
                 // Build possible solution array
                 ArrayList<Integer> left = new ArrayList<Integer>(possibleSol);
                 ArrayList<Integer> right = new ArrayList<Integer>(possibleSol);
