@@ -32,10 +32,13 @@ public class FPTAS {
             // Measure CPU Time
             timer.start();
 
-            List<Integer> solution = solve(knapsackInstance.getN(), knapsackInstance.getM(), knapsackInstance.getW(), knapsackInstance.getC());
+            List<Integer> solution = solve(knapsackInstance.getN(), knapsackInstance.getM(), knapsackInstance.getW(),
+                    knapsackInstance.getC());
 
-            // List<Integer> solution = KnapsackUtils.buildAnswerByTotalCostFromDPTableAndMemory(knapsackInstance.getN(), knapsackInstance.getM(), knapsackInstance.getW(), cScaled,
-            //         DynamicProgramming.dpTable);
+            // List<Integer> solution =
+            // KnapsackUtils.buildAnswerByTotalCostFromDPTableAndMemory(knapsackInstance.getN(),
+            // knapsackInstance.getM(), knapsackInstance.getW(), cScaled,
+            // DynamicProgramming.dpTable);
 
             // End timer
             timer.end();
@@ -44,17 +47,36 @@ public class FPTAS {
 
             // Calc Ea (Relative error) & Ra (Performance guarantee)
             KnapsackUtils.calculateQualityMeasurements(knapsackInstance,
-            knapsackOptimumSolutionInstances);
+                    knapsackOptimumSolutionInstances);
 
-            
-            // System.out.println(knapsackInstance.getM() + " " + knapsackInstance.getC()+ " " + knapsackInstance.getW() );
+            // System.out.println(knapsackInstance.getM() + " " + knapsackInstance.getC()+ "
+            // " + knapsackInstance.getW() );
             System.out.println(knapsackInstance.computationInfoToString());
             // System.out.println(knapsackInstance.toString());
         });
     }
 
     private List<Integer> solve(int n, int M, ArrayList<Integer> W, ArrayList<Integer> C) {
-        int maxCost = Collections.max(C);
+        // Remove items where weight is over the max. Capacity
+        List<List<Integer>> removedItemsList = new ArrayList<>();
+        for (int i = 0; i < W.size(); i++) {
+            if (W.get(i) > M) {
+                n--;
+                Integer wToRemove = W.remove(i);
+                Integer cToRemove = C.remove(i);
+                List<Integer> removedItem = new ArrayList<Integer>();
+                removedItem.add(i);
+                removedItem.add(wToRemove);
+                removedItem.add(cToRemove);
+                removedItemsList.add(removedItem);
+                i--;
+            }
+        }
+
+        int maxCost = 0;
+        if (C.size() > 0) {
+            maxCost = Collections.max(C);
+        }
         // Set scaling factor
         double K = (epsilon * maxCost) / n;
 
@@ -66,6 +88,13 @@ public class FPTAS {
             cScaled.add(newCost);
         }
         List<Integer> solution = DynamicProgramming.solveByTotalCostDecompositionIterative(n, M, W, cScaled);
+        // 'Add' the removed elements at the beginning as not added in the solution
+        for (List<Integer> removedItem : removedItemsList) {
+            n++;
+            solution.add(removedItem.get(0), 0);
+            W.add(removedItem.get(0), removedItem.get(1));
+            C.add(removedItem.get(0), removedItem.get(2));
+        }
         return solution;
     }
 }
