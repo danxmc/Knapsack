@@ -2,13 +2,22 @@ public class Main {
 
     public static void main(String[] args) {
         // Decision routes
-        // String fileURI = "src/KnapsackInstances/Decision/NR/NR4_inst.dat";
+        // String fileURI = "src/KnapsackInstances/Decision/NR/NR20_inst.dat";
         // String fileURI = "src/KnapsackInstances/Decision/ZR/ZR30_inst.dat";
 
         // Optimization routes
         // String fileURI = "src/KnapsackInstances/Optimization/NK/NK40_inst.dat";
         // String fileURI = "src/KnapsackInstances/Optimization/ZKC/ZKC40_inst.dat";
-        String fileURI = "src/KnapsackInstances/Optimization/ZKW/ZKW40_inst.dat";
+        // String fileURI = "src/KnapsackInstances/Optimization/ZKW/ZKW40_inst.dat";
+
+        // HW03 Generated Instances
+        String fileURI = "src/KnapsackInstances/Optimization/EXP/n20.dat";
+        // String fileURI = "src/KnapsackInstances/Optimization/EXP/C500.dat";
+        // String fileURI = "src/KnapsackInstances/Optimization/EXP/W100.dat";
+        // String fileURI = "src/KnapsackInstances/Optimization/EXP/m80.dat";
+        // String fileURI = "src/KnapsackInstances/Optimization/EXP/cuni.dat";
+        // String fileURI = "src/KnapsackInstances/Optimization/EXP/gh100.dat";
+        // String fileURI = "src/KnapsackInstances/Optimization/EXP/gl100.dat";
 
         // HW 1
         // getByBruteForce(fileURI);
@@ -21,7 +30,15 @@ public class Main {
         // getByDynamicProgrammingCapacityDecompositionIterative(fileURI);
         // getByDynamicProgrammingCapacityDecompositionRecursive(fileURI);
         // getByDynamicProgrammingTotalCostDecompositionIterative(fileURI);
-        getByFPTAS(fileURI);
+        // getByFPTAS(fileURI);
+
+        // HW 3
+        getByBruteForce(fileURI);
+        // getByBranchAndBoundOptimized(fileURI);
+        // getByDynamicProgrammingCapacityDecompositionIterative(fileURI);
+        // getByDynamicProgrammingTotalCostDecompositionIterative(fileURI);
+        // getByHeuristicExtended(fileURI);
+
     }
 
     public static void getByBruteForce(String fileUri) {
