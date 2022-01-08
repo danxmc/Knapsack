@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class KnapsackOptimizationInstance {
     private int id;
@@ -127,6 +128,13 @@ public class KnapsackOptimizationInstance {
 
     public String computationInfoToString() {
         return this.id + " " + this.relativeError + " " + this.performanceGuarantee + " " + this.time;
+    }
+
+    public String solutionInfoToString() {
+        String solutionString = this.solution.stream()
+                .map(n -> String.valueOf(n))
+                .collect(Collectors.joining(" ", "", ""));
+        return this.id + " " + this.n + " " + this.solutionCost + " " + solutionString;
     }
 
     // function to calculate the cost of a knapsack solution

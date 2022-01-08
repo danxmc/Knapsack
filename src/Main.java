@@ -11,13 +11,13 @@ public class Main {
         // String fileURI = "src/KnapsackInstances/Optimization/ZKW/ZKW40_inst.dat";
 
         // HW03 Generated Instances
-        String fileURI = "src/KnapsackInstances/Optimization/EXP/n20.dat";
-        // String fileURI = "src/KnapsackInstances/Optimization/EXP/C500.dat";
-        // String fileURI = "src/KnapsackInstances/Optimization/EXP/W100.dat";
-        // String fileURI = "src/KnapsackInstances/Optimization/EXP/m80.dat";
-        // String fileURI = "src/KnapsackInstances/Optimization/EXP/cuni.dat";
-        // String fileURI = "src/KnapsackInstances/Optimization/EXP/gh100.dat";
-        // String fileURI = "src/KnapsackInstances/Optimization/EXP/gl100.dat";
+        String fileURI = "src/KnapsackInstances/Optimization/EXP/n5_inst.dat";
+        // String fileURI = "src/KnapsackInstances/Optimization/EXP/C500_inst.dat";
+        // String fileURI = "src/KnapsackInstances/Optimization/EXP/W100_inst.dat";
+        // String fileURI = "src/KnapsackInstances/Optimization/EXP/m80_inst.dat";
+        // String fileURI = "src/KnapsackInstances/Optimization/EXP/cuni_inst.dat";
+        // String fileURI = "src/KnapsackInstances/Optimization/EXP/gh100_inst.dat";
+        // String fileURI = "src/KnapsackInstances/Optimization/EXP/gl100_inst.dat";
 
         // HW 1
         // getByBruteForce(fileURI);
@@ -33,9 +33,9 @@ public class Main {
         // getByFPTAS(fileURI);
 
         // HW 3
-        getByBruteForce(fileURI);
+        // getByBruteForce(fileURI);
         // getByBranchAndBoundOptimized(fileURI);
-        // getByDynamicProgrammingCapacityDecompositionIterative(fileURI);
+        getByDynamicProgrammingCapacityDecompositionRecursive(fileURI);
         // getByDynamicProgrammingTotalCostDecompositionIterative(fileURI);
         // getByHeuristicExtended(fileURI);
 
