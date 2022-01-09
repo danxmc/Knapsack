@@ -11,7 +11,8 @@ public class Main {
         // String fileURI = "src/KnapsackInstances/Optimization/ZKW/ZKW40_inst.dat";
 
         // HW03 Generated Instances
-        String fileURI = "src/KnapsackInstances/Optimization/EXP/n5_inst.dat";
+        String strFile = "n15Perm";
+        String fileURI = "src/KnapsackInstances/Optimization/EXP/" + strFile + "_inst.dat";
         // String fileURI = "src/KnapsackInstances/Optimization/EXP/C500_inst.dat";
         // String fileURI = "src/KnapsackInstances/Optimization/EXP/W100_inst.dat";
         // String fileURI = "src/KnapsackInstances/Optimization/EXP/m80_inst.dat";
@@ -33,12 +34,35 @@ public class Main {
         // getByFPTAS(fileURI);
 
         // HW 3
-        // getByBruteForce(fileURI);
-        // getByBranchAndBoundOptimized(fileURI);
-        getByDynamicProgrammingCapacityDecompositionRecursive(fileURI);
-        // getByDynamicProgrammingTotalCostDecompositionIterative(fileURI);
-        // getByHeuristicExtended(fileURI);
+        // getByDynamicProgrammingCapacityDecompositionRecursive(fileURI);
+        System.out.println("BruteForce");
+        System.out.println(strFile);
+        System.out.println("id Complexity Time(ms)");
+        getByBruteForce(fileURI);
 
+        System.out.println("");
+        System.out.println("BranchAndBound");
+        System.out.println(strFile);
+        System.out.println("id Rel.Error P.Guarantee Time(ms)");
+        getByBranchAndBoundOptimized(fileURI);
+
+        System.out.println("");
+        System.out.println("DPbyTotalCostDecomposition");
+        System.out.println(strFile);
+        System.out.println("id Rel.Error P.Guarantee Time(ms)");
+        getByDynamicProgrammingTotalCostDecompositionIterative(fileURI);
+
+        System.out.println("");
+        System.out.println("DPbyCapacityDecomposition");
+        System.out.println(strFile);
+        System.out.println("id Rel.Error P.Guarantee Time(ms)");
+        getByDynamicProgrammingTotalCostDecompositionIterative(fileURI);
+
+        System.out.println("");
+        System.out.println("Heuristic");
+        System.out.println(strFile);
+        System.out.println("id Rel.Error P.Guarantee Time(ms)");
+        getByHeuristicExtended(fileURI);
     }
 
     public static void getByBruteForce(String fileUri) {
