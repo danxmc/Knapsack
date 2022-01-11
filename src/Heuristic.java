@@ -65,7 +65,7 @@ public class Heuristic {
         });
     }
 
-    private List<Integer> solve(int n, int M, ArrayList<Integer> W, ArrayList<Integer> C) {
+    public static List<Integer> solve(int n, int M, ArrayList<Integer> W, ArrayList<Integer> C) {
         HashMap<Integer, Float> ratios = new HashMap<Integer, Float>();
         // Get cost / weight ratios on a map with their original index
         for (int i = 0; i < n; i++) {
@@ -89,7 +89,7 @@ public class Heuristic {
         return optimumSolution;
     }
 
-    private List<Integer> solveExtended(int n, int M, ArrayList<Integer> W, ArrayList<Integer> C) {
+    public static List<Integer> solveExtended(int n, int M, ArrayList<Integer> W, ArrayList<Integer> C) {
         int possibleSolutionCost = 0;
         Integer possibleSolutionIndex = null;
         List<Integer> possibleSolution = new ArrayList<>(Collections.nCopies(n, 0));

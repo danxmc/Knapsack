@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 public final class KnapsackUtils {
 
@@ -124,5 +125,58 @@ public final class KnapsackUtils {
         }
 
         return solution;
+    }
+
+    public static List<Integer> generateLocalConstructiveSolution(int n, int M, ArrayList<Integer> W,
+            ArrayList<Integer> C) {
+        // List<Integer> solution = Heuristic.solve(n, M, W, C);
+        List<Integer> solution = Heuristic.solveExtended(n, M, W, C);
+        return solution;
+    }
+
+    public static List<Integer> generateRandomValidSolution(int n, int M, ArrayList<Integer> W, ArrayList<Integer> C) {
+        List<Integer> solution = new ArrayList<>();
+        boolean isValidSol = false;
+        while (!isValidSol) {
+            solution = generateRandomSolution(n, M, W, C);
+            int solutionWeight = 0;
+            for (int i = 0; i < n; i++) {
+                int currentItemWeight = W.get(i);
+                solutionWeight += currentItemWeight * solution.get(i);
+            }
+            if (solutionWeight <= M) {
+                isValidSol = true;
+            }
+        }
+        return solution;
+    }
+
+    public static List<Integer> generateRandomSolution(int n, int M, ArrayList<Integer> W, ArrayList<Integer> C) {
+        List<Integer> solution = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            // Get random num between 0 - 1
+            int randomNum = ThreadLocalRandom.current().nextInt(0, 1 + 1);
+            solution.add(randomNum);
+        }
+        return solution;
+    }
+
+    public static int getSolutionCost(int n, ArrayList<Integer> C, List<Integer> solution) {
+        int solutionCost = 0;
+        for (int i = 0; i < n; i++) {
+            int currentItemCost = C.get(i);
+            int currentItemDecision = solution.get(i);
+            solutionCost += currentItemCost * currentItemDecision;
+        }
+        return solutionCost;
+    }
+
+    public static int getSolutionWeight(int n, ArrayList<Integer> W, List<Integer> solution) {
+        int solutionWeight = 0;
+        for (int i = 0; i < n; i++) {
+            int currentItemWeight = W.get(i);
+            solutionWeight += currentItemWeight * solution.get(i);
+        }
+        return solutionWeight;
     }
 }

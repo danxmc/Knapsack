@@ -12,6 +12,7 @@ public class KnapsackOptimizationInstance {
     private float time;
 
     private int solutionCost;
+    private int solutionWeight;
     private double relativeError;
     private double performanceGuarantee;
 
@@ -73,6 +74,10 @@ public class KnapsackOptimizationInstance {
         return solutionCost;
     }
 
+    public int getSolutionWeight() {
+        return solutionWeight;
+    }
+
     public double getRelativeError() {
         return relativeError;
     }
@@ -114,6 +119,10 @@ public class KnapsackOptimizationInstance {
         this.solutionCost = solutionCost;
     }
 
+    public void setSolutionWeight(int solutionWeight) {
+        this.solutionWeight = solutionWeight;
+    }
+
     public void setRelativeError(float relativeError) {
         this.relativeError = relativeError;
     }
@@ -124,6 +133,8 @@ public class KnapsackOptimizationInstance {
 
     public void setSolution(List<Integer> solution) {
         this.solution = solution;
+        this.calculateSolutionCost();
+        this.calculateSolutionWeight();
     }
 
     public String computationInfoToString() {
@@ -139,20 +150,21 @@ public class KnapsackOptimizationInstance {
 
     // function to calculate the cost of a knapsack solution
     public int calculateSolutionCost() {
-        int totalKnapsackCost = 0;
-        for (int i = 0; i < this.n; i++) {
-            int currentItemCost = this.C.get(i);
-            int currentItemDecision = this.solution.get(i);
+        this.solutionCost = KnapsackUtils.getSolutionCost(this.n, this.C, this.solution);
+        return this.solutionCost;
+    }
 
-            totalKnapsackCost += currentItemCost * currentItemDecision;
-        }
-        this.solutionCost = totalKnapsackCost;
-        return totalKnapsackCost;
+    // function to calculate the weight of a knapsack solution
+    public int calculateSolutionWeight() {
+        this.solutionWeight = KnapsackUtils.getSolutionWeight(this.n, this.W, this.solution);
+        return this.solutionWeight;
     }
 
     public double calcRelativeErrorMaximization(int optC, int aprC) {
         if (optC > 0) {
             this.relativeError = (double) (optC - aprC) / optC;
+        } else {
+            this.relativeError = 1 - (double) 1 / this.performanceGuarantee;
         }
         return this.relativeError;
     }
@@ -167,6 +179,8 @@ public class KnapsackOptimizationInstance {
     public double calcPerformanceGuaranteeMaximization(int optC, int aprC) {
         if (aprC > 0) {
             this.performanceGuarantee = (double) optC / aprC;
+        } else {
+            this.performanceGuarantee = (double) 1 / (1 - this.relativeError);
         }
         return this.performanceGuarantee;
     }
