@@ -6,7 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class SimulatedAnnealing {
     public Timer timer;
     public KnapsackReader kReader;
-    private static double ALPHA = 0.98;
+    private static double ALPHA = 0.95;
     private static int MAX_ITER = 3;
     private static final double INITIAL_TEMPERATURE = 10000;
     private static final double FINAL_TEMPERATURE = 0.00001;
@@ -45,16 +45,17 @@ public class SimulatedAnnealing {
             KnapsackUtils.calculateQualityMeasurements(knapsackInstance,
                     knapsackOptimumSolutionInstances);
 
+            System.out.println(INITIAL_TEMPERATURE + " " + FINAL_TEMPERATURE + " " + ALPHA + " " + MAX_ITER + " " + knapsackInstance.getRelativeError() + " " + knapsackInstance.getTime() + " " + knapsackInstance.getSolutionCost());
             // System.out.println(knapsackInstance.computationInfoToString());
             // System.out.println(knapsackInstance.solutionInfoToString());
-            System.out.println(
-                    knapsackInstance.solutionInfoToString() + " Rel.E: " +
-                            knapsackInstance.getRelativeError()
-                            + " P.Gu: " + knapsackInstance.getPerformanceGuarantee()
-                            + " M " + knapsackInstance.getM() + " Sol. Weight: " +
-                            knapsackInstance.getSolutionWeight()
-                            + " Sol. Cost: "
-                            + knapsackInstance.getSolutionCost());
+            // System.out.println(
+            //         knapsackInstance.solutionInfoToString() + " Rel.E: " +
+            //                 knapsackInstance.getRelativeError()
+            //                 + " P.Gu: " + knapsackInstance.getPerformanceGuarantee()
+            //                 + " M " + knapsackInstance.getM() + " Sol. Weight: " +
+            //                 knapsackInstance.getSolutionWeight()
+            //                 + " Sol. Cost: "
+            //                 + knapsackInstance.getSolutionCost());
             // System.out.println(knapsackInstance.toString());
         });
     }
@@ -71,13 +72,13 @@ public class SimulatedAnnealing {
                 List<Integer> newState = randomNeighbor(state);
                 int neighborWeight = KnapsackUtils.getSolutionWeight(n, W, newState);
                 int neighborCost = KnapsackUtils.getSolutionCost(n, C, newState);
-                int stateCost = KnapsackUtils.getSolutionCost(n, W, state);
+                int stateCost = KnapsackUtils.getSolutionCost(n, C, state);
 
                 if (neighborWeight <= M) {
                     int deltaC = neighborCost - stateCost;
 
                     // Accept solution if better
-                    if (deltaC < 0) {
+                    if (deltaC > 0) {
                         state = newState;
                     } else if (accept(deltaC, t)) { // Accept probabilistically even if solution is worse
                         state = newState;
@@ -93,7 +94,6 @@ public class SimulatedAnnealing {
 
             t = cool(t);
         }
-        // System.out.println(state.toString());
         return bestFoundSol;
     }
 
@@ -122,7 +122,7 @@ public class SimulatedAnnealing {
     // When t decreases, e^(-deltaC/t) decreases
     // the lower the temperature, the lower the acceptance probability
     private boolean accept(int deltaC, double t) {
-        double acceptP = Math.pow(Math.E, -1 * deltaC / t);
+        double acceptP = Math.pow(Math.E, 1 * deltaC / t);
         double p = Math.random();
         return p < acceptP;
     }
